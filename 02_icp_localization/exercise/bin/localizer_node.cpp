@@ -136,13 +136,13 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
    */
   static tf2_ros::TransformBroadcaster br;
   // TODO
-  Eigen::Isometry2f laser_in_world; // create an object to store the laser in the world
-  laser_in_world = localizer.X(); // call the localizer and return the current pose of the laser in the world
+  Eigen::Isometry2f laser_in_world; // create an object to store the laser pose in the world
+  laser_in_world = localizer.X(); // call the localizer X() and return the current pose of the laser in the world
 
   geometry_msgs::TransformStamped laser_message; // create a message for the pose of the lase in the map
 
   isometry2transformStamped(laser_in_world, laser_message, FRAME_WORLD, FRAME_LASER, msg_->header.stamp); // convert the message of the isometry of the laser into the right message
-  br.sendTransform(laser_message);
+  br.sendTransform(laser_message); // send a transform message
 
   /**
    * Send a nav_msgs::Odometry message containing the current laser_in_world
@@ -151,6 +151,9 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
    * TransformStamped message to a nav_msgs::Odometry message.
    */
   // TODO
+  nav_msgs::Odometry odom_laser_in_world; // create a nav_msgs object type
+  transformStamped2odometry(laser_message, odom_laser_in_world); // convert the Stamped into an odometry
+  pub_odom.publish(odom_laser_in_world); // publish the odometry by the Publisher
 
   // Sends a copy of msg_ with FRAME_LASER set as frame_id
   // Used to visualize the scan attached to the current laser estimate.
