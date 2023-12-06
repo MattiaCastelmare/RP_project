@@ -22,9 +22,32 @@ void Localizer2D::setMap(std::shared_ptr<Map> map_) {
    * Finally instantiate the KD-Tree (obst_tree_ptr) on the vector.
    */
   // TODO
+  //std::vector<Eigen::Vector2f> _obst_vect; // create the vector for the obstacle
+
+  if (_map->initialized())
+    { 
+      int rows = _map -> rows(); // number of rows of the map
+      int cols = _map -> cols(); // number of cols of the map
+
+      // std::vector<int8_t> vector_map = _map -> grid(); // convert the map from a 2D array to an std::vector<int8_t> in which each element is a CellType (-1 0 100) 
+
+      for (int x = 0; x < rows; x++) // iterate all over the rows
+      {
+      for (int y = 0; y < cols; y++) // iterate all over the columns
+            if ((*_map)(x,y) == CellType::Occupied) // check if the cell is occupied
+             {
+              Eigen::Vector2f world_point = _map -> grid2world(cv::Point2i (x,y)); // convert from map point to world coordinates
+              _obst_vect.push_back(world_point);
+             }
+            else
+              continue;
+       }
+  }
 
   // Create KD-Tree
-  // TODO
+  // TODO 
+  _obst_tree_ptr = std::make_shared<TreeType>(_obst_vect.begin(), _obst_vect.end()); // _obst_tree_ptr is a shared pointer
+  std::cout << "KD Tree created!" << std::endl;
 }
 
 /**
@@ -34,6 +57,8 @@ void Localizer2D::setMap(std::shared_ptr<Map> map_) {
  */
 void Localizer2D::setInitialPose(const Eigen::Isometry2f& initial_pose_) {
   // TODO
+  _laser_in_world = initial_pose_;
+  
 }
 
 /**
@@ -45,6 +70,9 @@ void Localizer2D::setInitialPose(const Eigen::Isometry2f& initial_pose_) {
 void Localizer2D::process(const ContainerType& scan_) {
   // Use initial pose to get a synthetic scan to compare with scan_
   // TODO
+  ContainerType synthetic_scan;
+  getPrediction(synthetic_scan);
+  
 
   /**
    * Align prediction and scan_ using ICP.
@@ -100,4 +128,5 @@ void Localizer2D::getPrediction(ContainerType& prediction_) {
    * You may use additional sensor's informations to refine the prediction.
    */
   // TODO
+  
 }

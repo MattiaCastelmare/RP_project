@@ -97,6 +97,7 @@ void callback_initialpose(
   Eigen::Isometry2f initial_pose; // create Eigen Isometry called inital_pose
   pose2isometry(pose_obj, initial_pose);  // convert geometry_msgs into Eigen isometry
   localizer.setInitialPose(initial_pose); // informing the localizer
+  
 }
 
 void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
