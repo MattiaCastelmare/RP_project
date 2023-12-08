@@ -24,7 +24,7 @@ void Localizer2D::setMap(std::shared_ptr<Map> map_) {
   // TODO
   //std::vector<Eigen::Vector2f> _obst_vect; // create the vector for the obstacle
 
-  if (_map->initialized())
+  if (_map -> initialized())
     { 
       int rows = _map -> rows(); // number of rows of the map
       int cols = _map -> cols(); // number of cols of the map
@@ -71,7 +71,7 @@ void Localizer2D::process(const ContainerType& scan_) {
   // Use initial pose to get a synthetic scan to compare with scan_
   // TODO
   ContainerType synthetic_scan;
-  getPrediction(synthetic_scan);
+  getPrediction(synthetic_scan); // this function will populate the synthetic_scan vector with the computed prediction
   
 
   /**
@@ -80,12 +80,19 @@ void Localizer2D::process(const ContainerType& scan_) {
    * solver X before running ICP)
    */
   // TODO
+  int min_points_in_leaf = 10;
+  ICP icp(synthetic_scan, scan_, min_points_in_leaf); // setting ICP with prediction and scan
 
+  icp.X() = _laser_in_world; // I set the initial guess for the ICP as the current estimate of the laser in world
+
+  int num_iterations = 100; // number of iterations of the ICP
+  icp.run(num_iterations); // running the ICP algorithm for 100 iterations
   /**
    * Store the solver result (X) as the new laser_in_world estimate
    *
    */
   // TODO
+  _laser_in_world = icp.X(); // I store the solution of the ICP algorithm as the current estimate of the laser in world
 }
 
 /**
@@ -122,11 +129,12 @@ void Localizer2D::setLaserParams(float range_min_, float range_max_,
  */
 void Localizer2D::getPrediction(ContainerType& prediction_) {
   prediction_.clear();
-  /**
+  
+    /**
    * To compute the prediction, query the KD-Tree and search for all points
    * around the current laser_in_world estimate.
    * You may use additional sensor's informations to refine the prediction.
    */
   // TODO
-  
 }
+

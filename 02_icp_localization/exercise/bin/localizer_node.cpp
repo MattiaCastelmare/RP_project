@@ -76,10 +76,10 @@ void callback_map(const nav_msgs::OccupancyGridConstPtr& msg_) {
   // Remember to load the map only once during the execution of the map.
 
   // TODO
-  if (!map_ptr->initialized())
+  if (map_ptr && !map_ptr->initialized())
     {   
       map_ptr->loadOccupancyGrid(msg_); // function inside the map.h 
-      ROS_INFO("Maps loaded!"); // ROS messages to indicate that the maps is loaded
+      ROS_INFO("Map loaded!"); // ROS messages to indicate that the maps is loaded
       localizer.setMap(map_ptr); // setting the localizer map 
     }
 }
