@@ -21,9 +21,14 @@ Run the following commands in a terminal:
 ```sh
 cd ~
 
-mkdir -p catkin_ws/src
+mkdir -p catkin_icp_ws/src
 
-cd catkin_ws/src
+cd catkin_icp_ws/src
 
 catkin_init_worskpace
+
 git clone https://github.com/MattiaCastelmare/RP_project.git
+
+cd ~catkin_icp_ws
+
+catkin_build
