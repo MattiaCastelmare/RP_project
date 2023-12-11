@@ -52,35 +52,35 @@ Everytime a terminal is opened source the project by the command:
 source devel/setup.bash
 ```
 1) Open a terminal go into the catkin_icp_ws and source it then run:
-```sh
-roscore
-```
+   ```sh
+   roscore
+   ```
 2) Open a terminal go into the catkin_icp_ws and source it then run:
-```sh
-cd ~/src/RP_project/02_icp_localization/
-```
-Run the map_server node:
-```sh
-rosrun map_server map_server test_data/cappero.yaml
-```
+   ```sh
+   cd ~/src/RP_project/02_icp_localization/
+   ```
+   Run the map_server node:
+   ```sh
+   rosrun map_server map_server test_data/cappero.yaml
+   ```
 3) Open a terminal go into the catkin_icp_ws and source it then run:
-```sh
-cd ~/src/RP_project/02_icp_localization/
-```
-Launch the rviz configuration
-```sh
-rviz -d test_data/rviz.rviz
+   ```sh
+   cd ~/src/RP_project/02_icp_localization/
+   ```
+   Launch the rviz configuration
+   ```sh
+   rviz -d test_data/rviz.rviz
 ```
 4) Open a terminal go into the catkin_icp_ws and source it then run:
 ```sh
-cd ~/src/RP_project/02_icp_localization/
-```
-Launch the simulator, launch the roscore and the 'stageros' node:
-```sh
-rosrun stage_ros stageros test_data/cappero.world
-```
+   cd ~/src/RP_project/02_icp_localization/
+   ```
+   Launch the simulator, launch the roscore and the 'stageros' node:
+   ```sh
+   rosrun stage_ros stageros test_data/cappero.world
+   ```
 5) Open a terminal go into the catkin_icp_ws and source it the run the localizer node:
-```sh
-rosrun icp_localization localizer_node
-```
+   ```sh
+   rosrun icp_localization localizer_node
+   ```
 At this point open rviz and set the initial position of the robot to one close to the real one, then open the simulator and move the robot with the mouse. In rviz you should see the odometry of the robot and its scan of the obstacles.
