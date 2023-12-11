@@ -8,4 +8,6 @@ Before running the project be sured to have installed the following packages:
 \
 Install the `ros-${DISTRO}-map-server` package. In our case (valid for Lattinone VM) we are using _ROS Noetic_
 \
-$$ sudo apt install ros-noetic-map-server
+   ```sh
+    sudo apt install ros-noetic-map-server
+   ```
