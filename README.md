@@ -16,8 +16,9 @@ Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` 
      ```sh
      sudo apt install ros-noetic-stage-ros ros-noetic-teleop-twist-keyboard
      ```
-## How to test
+## How to set up workspace and clone repository
 Run the following commands in a terminal:
+\
 Go in the root folder and create the folder catkin_icp_ws/src
    ```sh
    cd ~
@@ -41,3 +42,5 @@ Go into the catkin_icp_ws folder and build the project
    
    catkin_build
    ```
+## How to test the project
+To test the project
