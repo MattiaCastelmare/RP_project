@@ -11,3 +11,8 @@ Install the `ros-${DISTRO}-map-server` package. In our case (valid for Lattinone
    ```sh
     sudo apt install ros-noetic-map-server
    ```
+2) Stage-ROS
+\
+Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` package. As above, we are using _ROS Noetic_
+  ```sh
+  sudo apt install ros-noetic-stage-ros ros-noetic-teleop-twist-keyboard
