@@ -18,17 +18,24 @@ Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` 
      ```
 ## How to test
 Run the following commands in a terminal:
+Go in the root folder and create the folder catkin_icp_ws/src
 ```sh
 cd ~
 
 mkdir -p catkin_icp_ws/src
-
+```
+```sh Go inside the catkin_icp_ws/src and create your catkin workspace
 cd catkin_icp_ws/src
 
 catkin_init_workspace
-
+```
+```sh
+Clone this repository inside the catkin_icp_ws/folder
+```
 git clone https://github.com/MattiaCastelmare/RP_project.git
-
-cd ~catkin_icp_ws
+Go into the catkin_icp_ws folder and build the project
+```sh
+cd ~/catkin_icp_ws/
 
 catkin_build
+```
