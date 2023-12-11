@@ -60,6 +60,8 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "bit": "cpp"
+        "bit": "cpp",
+        "list": "cpp",
+        "core": "cpp"
     }
 }

@@ -15,11 +15,17 @@
 #include "map.h"
 #include "ros_bridge.h"
 
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/utils.h>
+
+
 // Map callback definition
 void callback_map(const nav_msgs::OccupancyGridConstPtr&);
+
 // Initial pose callback definition
 void callback_initialpose(
     const geometry_msgs::PoseWithCovarianceStampedConstPtr&);
+
 // Scan callback definition
 void callback_scan(const sensor_msgs::LaserScanConstPtr&);
 
@@ -53,11 +59,11 @@ int main(int argc, char** argv) {
    * /odom_out [nav_msgs::Odometry]
    */
   // TODO
-  ros::Subscriber map_subscriber = nh.subscribe("map", 10, callback_map); // map subscriber
-  ros::Subscriber initial_pose_subscriber = nh.subscribe("initial_pose", 10, callback_initialpose); // initial pose subscriber
-  ros::Subscriber base_scan_subscriber = nh.subscribe("base_scan", 10, callback_scan); // base scan subscriber
+  ros::Subscriber map_subscriber = nh.subscribe("/map", 10, callback_map); // map subscriber
+  ros::Subscriber initial_pose_subscriber = nh.subscribe("/initialpose", 10, callback_initialpose); // initial pose subscriber
+  ros::Subscriber base_scan_subscriber = nh.subscribe("/base_scan", 10, callback_scan); // base scan subscriber
 
-  pub_odom = nh.advertise<nav_msgs::Odometry>("/odom_out", 10);
+  pub_odom = nh.advertise<nav_msgs::Odometry>("/odom_out", 10); // advertise the topic /odom_out [nav_msgs::Odometry]
 
   // Scan advertiser for visualization purposes
   pub_scan = nh.advertise<sensor_msgs::LaserScan>("/scan_out", 10);
@@ -76,10 +82,10 @@ void callback_map(const nav_msgs::OccupancyGridConstPtr& msg_) {
   // Remember to load the map only once during the execution of the map.
 
   // TODO
-  if (map_ptr && !map_ptr->initialized())
+  if (map_ptr && !map_ptr->initialized()) // if map_ptr exists and it is not initialized
     {   
-      map_ptr->loadOccupancyGrid(msg_); // function inside the map.h 
-      ROS_INFO("Map loaded!"); // ROS messages to indicate that the maps is loaded
+      map_ptr->loadOccupancyGrid(msg_); // loads the map (occupancyGrid)
+      ROS_INFO("Map loaded!"); // ROS message
       localizer.setMap(map_ptr); // setting the localizer map 
     }
 }
@@ -97,7 +103,11 @@ void callback_initialpose(
   Eigen::Isometry2f initial_pose; // create Eigen Isometry called inital_pose
   pose2isometry(pose_obj, initial_pose);  // convert geometry_msgs into Eigen isometry
   localizer.setInitialPose(initial_pose); // informing the localizer
-  
+  ROS_INFO("Initial pose: x=%f, y=%f, theta=%f",
+           initial_pose.translation().x(),
+           initial_pose.translation().y(),
+           Eigen::Rotation2Df(initial_pose.linear()).angle());
+
 }
 
 void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
@@ -137,8 +147,7 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
    */
   static tf2_ros::TransformBroadcaster br;
   // TODO
-  Eigen::Isometry2f laser_in_world; // create an object to store the laser pose in the world
-  laser_in_world = localizer.X(); // call the localizer X() and return the current pose of the laser in the world
+  Eigen::Isometry2f laser_in_world = localizer.X(); // call the localizer X() and return the current pose of the laser in the world
 
   geometry_msgs::TransformStamped laser_message; // create a message for the pose of the lase in the map
 
@@ -156,9 +165,17 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
   transformStamped2odometry(laser_message, odom_laser_in_world); // convert the Stamped into an odometry
   pub_odom.publish(odom_laser_in_world); // publish the odometry by the Publisher
 
+  // Log the odom_laser_in_world information
+  ROS_INFO("Odometry (laser in world): x=%f, y=%f, theta=%f",
+           odom_laser_in_world.pose.pose.position.x,
+           odom_laser_in_world.pose.pose.position.y,
+           tf2::getYaw(odom_laser_in_world.pose.pose.orientation));
+
   // Sends a copy of msg_ with FRAME_LASER set as frame_id
   // Used to visualize the scan attached to the current laser estimate.
   sensor_msgs::LaserScan out_scan = *msg_;
   out_scan.header.frame_id = FRAME_LASER;
   pub_scan.publish(out_scan);
+  // Log the out_scan information
+  ROS_INFO("Outgoing LaserScan frame_id: %s", out_scan.header.frame_id.c_str());
 }

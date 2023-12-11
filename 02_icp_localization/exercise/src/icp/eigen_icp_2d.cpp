@@ -80,6 +80,28 @@ void ICP::run(int max_iterations) {
   while (current_iteration < max_iterations) {
     computeCorrespondences();
     optimizeCorrespondences();
+    //draw(cout);
     ++current_iteration;
+    cerr << "Iteration: " << current_iteration;
+    cerr << " corr: " << numCorrespondences();
+    cerr << " inl: " << numInliers();
+    cerr << " ker: " << numKernelized();
+    cerr << " chi: " << _chi2_sum << endl;
   }
+}
+void ICP::draw(std::ostream& os) {
+  os << "set size ratio -1" << endl;
+  os << "plot '-' w p ps 2 title \"fixed\", '-' w p ps 2 title \"moving\", '-' w l lw 1 title \"correspondences\" " << endl;
+  for  (const auto& p: _fixed)
+    os << p.transpose() << endl;
+  os << "e" << endl;
+  for  (const auto& p: _moving)
+    os << (_X*p).transpose() << endl;
+  os << "e" << endl;
+  for (const auto& c: _correspondences) {
+    os << c._fixed.transpose() << endl;
+    os << c._moving.transpose() << endl;
+    os << endl;
+  }
+  os << "e" << endl;
 }

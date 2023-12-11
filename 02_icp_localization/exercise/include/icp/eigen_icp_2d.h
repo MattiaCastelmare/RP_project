@@ -43,6 +43,7 @@ class ICP {
   void computeCorrespondencesFake();
 
   void optimizeCorrespondences();
+  void draw(std::ostream& os);
 
   using TreeNodeType = TreeNode_<typename ContainerType::iterator>;
 
