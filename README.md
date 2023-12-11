@@ -25,7 +25,7 @@ mkdir -p catkin_icp_ws/src
 
 cd catkin_icp_ws/src
 
-catkin_init_worskpace
+catkin_init_workspace
 
 git clone https://github.com/MattiaCastelmare/RP_project.git
 
