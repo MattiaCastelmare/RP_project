@@ -32,7 +32,7 @@ Go inside the catkin_icp_ws/src and create your catkin workspace
    catkin_init_workspace
    ```
 
-Clone this repository inside the catkin_icp_ws/folder
+Clone this repository inside the catkin_icp_ws/src folder
    ```sh
    git clone https://github.com/MattiaCastelmare/RP_project.git
    ```
