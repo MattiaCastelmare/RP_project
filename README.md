@@ -70,9 +70,9 @@ source devel/setup.bash
    Launch the rviz configuration
    ```sh
    rviz -d test_data/rviz.rviz
-```
+   ```
 4) Open a terminal go into the catkin_icp_ws and source it then run:
-```sh
+   ```sh
    cd ~/src/RP_project/02_icp_localization/
    ```
    Launch the simulator, launch the roscore and the 'stageros' node:
