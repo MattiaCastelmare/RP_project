@@ -1,6 +1,8 @@
 #include "localizer2d.h"
 
 #include "icp/eigen_icp_2d.h"
+#include <iostream>
+#include <cmath> 
 
 Localizer2D::Localizer2D()
     : _map(nullptr),
@@ -24,19 +26,20 @@ void Localizer2D::setMap(std::shared_ptr<Map> map_) {
   // TODO
   //std::vector<Eigen::Vector2f> _obst_vect; // create the vector for the obstacle
 
-  if (_map -> initialized())
+  if (_map && _map -> initialized())
     { 
       int rows = _map -> rows(); // number of rows of the map
       int cols = _map -> cols(); // number of cols of the map
-
+      _obst_vect.clear();
       // std::vector<int8_t> vector_map = _map -> grid(); // convert the map from a 2D array to an std::vector<int8_t> in which each element is a CellType (-1 0 100) 
 
-      for (int x = 0; x < rows; x++) // iterate all over the rows
+      for (size_t x = 0; x < rows; ++x) // iterate all over the rows
       {
-      for (int y = 0; y < cols; y++) // iterate all over the columns
+      for (size_t y = 0; y < cols; ++y) // iterate all over the columns
             if ((*_map)(x,y) == CellType::Occupied) // check if the cell is occupied
              {
               Eigen::Vector2f world_point = _map -> grid2world(cv::Point2i (x,y)); // convert from map point to world coordinates
+              // std::cout << "world coordinates are " << world_point << std::endl;
               _obst_vect.push_back(world_point);
              }
             else
@@ -80,13 +83,14 @@ void Localizer2D::process(const ContainerType& scan_) {
    * solver X before running ICP)
    */
   // TODO
-  int min_points_in_leaf = 10;
+  int min_points_in_leaf = 100;
   ICP icp(synthetic_scan, scan_, min_points_in_leaf); // setting ICP with prediction and scan
 
   icp.X() = _laser_in_world; // I set the initial guess for the ICP as the current estimate of the laser in world
 
-  int num_iterations = 100; // number of iterations of the ICP
+  int num_iterations = 20; // number of iterations of the ICP
   icp.run(num_iterations); // running the ICP algorithm for 100 iterations
+
   /**
    * Store the solver result (X) as the new laser_in_world estimate
    *
@@ -129,12 +133,37 @@ void Localizer2D::setLaserParams(float range_min_, float range_max_,
  */
 void Localizer2D::getPrediction(ContainerType& prediction_) {
   prediction_.clear();
-  
-    /**
+  /**
    * To compute the prediction, query the KD-Tree and search for all points
    * around the current laser_in_world estimate.
    * You may use additional sensor's informations to refine the prediction.
    */
   // TODO
+  float ball_radius = 20;
+  // Query the KD-Tree to find neighbors within the search radius around the current laser_in_world estimate
+  std::vector<PointType*> neighbors;
+  _obst_tree_ptr->fullSearch(neighbors, _laser_in_world.translation(), ball_radius);
+
+  for (const auto& neighbor : neighbors) {
+    // check if the neighbor is within the range min and range max and if it is within the angle min and angle max
+    float x_laser = _laser_in_world.translation().x();
+    float y_laser = _laser_in_world.translation().y();
+
+    float x_neighbor = neighbor -> x();
+    float y_neighbor = neighbor -> y();
+
+    float diff_x = x_laser - x_neighbor;
+    float diff_y = y_laser - y_neighbor; 
+
+    float distance = sqrt(std::pow(diff_x,2) + std::pow(diff_y,2));
+    float angle = std::atan2(diff_y, diff_x);
+    prediction_.push_back(*neighbor);
+    if ((_range_min <= distance && distance <= _range_max) &&
+        (_angle_min <= angle && angle <= _angle_max)) {
+          // std::cout << "Distance in is " << distance << std::endl;
+          // std::cout << "Angle in is " << angle << std::endl;
+          prediction_.push_back(*neighbor);
+       }   
+  }
 }
 
