@@ -29,10 +29,11 @@ cd catkin_icp_ws/src
 
 catkin_init_workspace
 ```
-```sh
+
 Clone this repository inside the catkin_icp_ws/folder
-```
+```sh
 git clone https://github.com/MattiaCastelmare/RP_project.git
+```
 Go into the catkin_icp_ws folder and build the project
 ```sh
 cd ~/catkin_icp_ws/
