@@ -155,13 +155,12 @@ void Localizer2D::getPrediction(ContainerType& prediction_) {
     float diff_x = x_laser - x_neighbor;
     float diff_y = y_laser - y_neighbor; 
 
-    float distance = sqrt(std::pow(diff_x,2) + std::pow(diff_y,2));
-    float angle = std::atan2(diff_y, diff_x);
+    float distance = sqrt(std::pow(diff_x,2) + std::pow(diff_y,2)); // compute the distance between the prediction and the laser
+    float angle = std::atan2(diff_y, diff_x); // compute the angle between the prediction and the laser
     prediction_.push_back(*neighbor);
     if ((_range_min <= distance && distance <= _range_max) &&
         (_angle_min <= angle && angle <= _angle_max)) {
-          // std::cout << "Distance in is " << distance << std::endl;
-          // std::cout << "Angle in is " << angle << std::endl;
+
           prediction_.push_back(*neighbor);
        }   
   }
