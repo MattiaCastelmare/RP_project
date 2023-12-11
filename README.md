@@ -40,7 +40,7 @@ Go into the catkin_icp_ws folder and build the project
    ```sh
    cd ~/catkin_icp_ws/
    
-   catkin_build
+   catkin build
    ```
 ## How to test the project
 To test the project
