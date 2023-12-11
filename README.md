@@ -36,14 +36,14 @@ Clone this repository inside the catkin_icp_ws/src folder
    ```sh
    git clone https://github.com/MattiaCastelmare/RP_project.git
    ```
-Go into the catkin_icp_ws folder and build the project
+Go into the ~/catkin_icp_ws/ folder and build the project
    ```sh
    cd ~/catkin_icp_ws/
    
    catkin build
    ```
 ## How to test the project
-Open a terminal and navigate inside the catkin_icp_ws by typing:
+Open a terminal and navigate inside the ~/catkin_icp_ws/ by typing:
 ```sh
 cd ~/catkin_icp_ws/
 ```
@@ -51,11 +51,11 @@ Everytime a terminal is opened source the project by the command:
 ```sh
 source devel/setup.bash
 ```
-1) Open a terminal go into the catkin_icp_ws and source it then run:
+1) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
    roscore
    ```
-2) Open a terminal go into the catkin_icp_ws and source it then run:
+2) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
    cd ~/src/RP_project/02_icp_localization/
    ```
@@ -63,7 +63,7 @@ source devel/setup.bash
    ```sh
    rosrun map_server map_server test_data/cappero.yaml
    ```
-3) Open a terminal go into the catkin_icp_ws and source it then run:
+3) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
    cd ~/src/RP_project/02_icp_localization/
    ```
@@ -71,7 +71,7 @@ source devel/setup.bash
    ```sh
    rviz -d test_data/rviz.rviz
    ```
-4) Open a terminal go into the catkin_icp_ws and source it then run:
+4) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
    cd ~/src/RP_project/02_icp_localization/
    ```
@@ -79,7 +79,7 @@ source devel/setup.bash
    ```sh
    rosrun stage_ros stageros test_data/cappero.world
    ```
-5) Open a terminal go into the catkin_icp_ws and source it the run the localizer node:
+5) Open a terminal go into the ~/catkin_icp_ws/ and source it the run the localizer node:
    ```sh
    rosrun icp_localization localizer_node
    ```
