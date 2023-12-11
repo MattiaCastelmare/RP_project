@@ -20,11 +20,11 @@ Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` 
 Run the following commands in a terminal:
 ```sh
 cd ~
-```sh
+```
 mkdir -p catkin_ws/src
-```sh
+```
 cd catkin_ws/src
-```sh
+```
 catkin_init_worskpace
-```sh
+```
 https://github.com/MattiaCastelmare/RP_project.git
