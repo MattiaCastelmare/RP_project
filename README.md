@@ -56,7 +56,7 @@ source devel/setup.bash
    ```
 2) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
-   cd ~/src/RP_project/02_icp_localization/
+   cd ~/catkin_icp_ws/src/RP_project/02_icp_localization/
    ```
    Run the map_server node:
    ```sh
@@ -64,7 +64,7 @@ source devel/setup.bash
    ```
 3) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
-   cd ~/src/RP_project/02_icp_localization/
+   cd ~/catkin_icp_ws/src/RP_project/02_icp_localization/
    ```
    Launch the rviz configuration
    ```sh
@@ -72,7 +72,7 @@ source devel/setup.bash
    ```
 4) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
-   cd ~/src/RP_project/02_icp_localization/
+   cd ~/catkin_icp_ws/src/RP_project/02_icp_localization/
    ```
    Launch the simulator, launch the roscore and the 'stageros' node:
    ```sh
