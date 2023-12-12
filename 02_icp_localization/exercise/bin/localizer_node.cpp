@@ -45,7 +45,9 @@ int main(int argc, char** argv) {
 
   // Create shared pointer for the Map object
   // TODO
-  map_ptr = std::make_shared<Map>(); // make_shared creates a shared pointer that manages a new object ref:https://en.cppreference.com/w/cpp/memory/shared_ptr 
+
+  // make_shared creates a shared pointer that manages a new object ref:https://en.cppreference.com/w/cpp/memory/shared_ptr 
+  map_ptr = std::make_shared<Map>(); 
   
   //
   /**
@@ -59,11 +61,18 @@ int main(int argc, char** argv) {
    * /odom_out [nav_msgs::Odometry]
    */
   // TODO
-  ros::Subscriber map_subscriber = nh.subscribe("/map", 10, callback_map); // map subscriber
-  ros::Subscriber initial_pose_subscriber = nh.subscribe("/initialpose", 10, callback_initialpose); // initial pose subscriber
-  ros::Subscriber base_scan_subscriber = nh.subscribe("/base_scan", 10, callback_scan); // base scan subscriber
 
-  pub_odom = nh.advertise<nav_msgs::Odometry>("/odom_out", 10); // advertise the topic /odom_out [nav_msgs::Odometry]
+  // Map subscriber
+  ros::Subscriber map_subscriber = nh.subscribe("/map", 10, callback_map); 
+
+  // Initial pose subscriber
+  ros::Subscriber initial_pose_subscriber = nh.subscribe("/initialpose", 10, callback_initialpose); 
+
+  // Base scan subscriber
+  ros::Subscriber base_scan_subscriber = nh.subscribe("/base_scan", 10, callback_scan); 
+
+  // Advertise the topic /odom_out [nav_msgs::Odometry]
+  pub_odom = nh.advertise<nav_msgs::Odometry>("/odom_out", 10); 
 
   // Scan advertiser for visualization purposes
   pub_scan = nh.advertise<sensor_msgs::LaserScan>("/scan_out", 10);
@@ -78,15 +87,22 @@ int main(int argc, char** argv) {
 
 void callback_map(const nav_msgs::OccupancyGridConstPtr& msg_) {
   // If the internal map is not initialized, load the incoming occupancyGrid and
-  // set the localizer map accordingly
+  // Set the localizer map accordingly
   // Remember to load the map only once during the execution of the map.
 
   // TODO
-  if (map_ptr && !map_ptr->initialized()) // if map_ptr exists and it is not initialized
-    {   
-      map_ptr->loadOccupancyGrid(msg_); // loads the map (occupancyGrid)
-      ROS_INFO("Map loaded!"); // ROS message
-      localizer.setMap(map_ptr); // setting the localizer map 
+
+  // If map_ptr exists and it is not initialized
+  if (map_ptr && !map_ptr->initialized()) 
+    { 
+      // Loads the map (occupancyGrid) 
+      map_ptr->loadOccupancyGrid(msg_); 
+
+      // ROS message
+      ROS_INFO("Map loaded!"); 
+
+      // Setting the localizer map
+      localizer.setMap(map_ptr);  
     }
 }
 
@@ -98,11 +114,20 @@ void callback_initialpose(
    * You can check ros_bridge.h for helps :)
    */
   // TODO
-  geometry_msgs::Pose pose_obj = msg_ -> pose.pose; // I have to access the pose from the msg_
 
-  Eigen::Isometry2f initial_pose; // create Eigen Isometry called inital_pose
-  pose2isometry(pose_obj, initial_pose);  // convert geometry_msgs into Eigen isometry
-  localizer.setInitialPose(initial_pose); // informing the localizer
+  // I have to access the pose from the msg_
+  geometry_msgs::Pose pose_obj = msg_ -> pose.pose; 
+
+  // Create Eigen Isometry called inital_pose
+  Eigen::Isometry2f initial_pose; 
+
+  // Convert geometry_msgs into Eigen isometry
+  pose2isometry(pose_obj, initial_pose);
+
+  // Informing the localizer of the initial pose  
+  localizer.setInitialPose(initial_pose); 
+
+  // ROS message for the initial pose
   ROS_INFO("Initial pose: x=%f, y=%f, theta=%f",
            initial_pose.translation().x(),
            initial_pose.translation().y(),
@@ -123,15 +148,18 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
    * localizer
    */
   // TODO
-  // the parameters are set in the localizer2d.h file
+
+  // parameters are set in the localizer2d.h file
   float range_min = msg_ -> range_min; 
   float range_max = msg_ -> range_max; 
   float angle_min = msg_ -> angle_min; 
   float angle_max = msg_ -> angle_max; 
   float angle_increment = msg_ -> angle_increment; 
 
+  // Setting the laser parameters
   localizer.setLaserParams(range_min, range_max, angle_min, angle_max, angle_increment);
 
+  // Process the incoming scan
   localizer.process(scan_points); 
 
   /**
@@ -145,14 +173,21 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
    * The timestamp of the message should be equal to the timestamp of the
    * received message (msg_->header.stamp)
    */
+
   static tf2_ros::TransformBroadcaster br;
   // TODO
-  Eigen::Isometry2f laser_in_world = localizer.X(); // call the localizer X() and return the current pose of the laser in the world
 
-  geometry_msgs::TransformStamped laser_message; // create a message for the pose of the lase in the map
+  // Call the localizer X() and return the current pose of the laser in the world
+  Eigen::Isometry2f laser_in_world = localizer.X(); 
 
-  isometry2transformStamped(laser_in_world, laser_message, FRAME_WORLD, FRAME_LASER, msg_->header.stamp); // convert the message of the isometry of the laser into the right message
-  br.sendTransform(laser_message); // send a transform message
+  // Create a message for the pose of the lase in the map
+  geometry_msgs::TransformStamped laser_message; 
+
+  // Convert the message of the isometry of the laser into the right message
+  isometry2transformStamped(laser_in_world, laser_message, FRAME_WORLD, FRAME_LASER, msg_->header.stamp); 
+
+  // Send a transform message
+  br.sendTransform(laser_message); 
 
   /**
    * Send a nav_msgs::Odometry message containing the current laser_in_world
@@ -161,9 +196,15 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
    * TransformStamped message to a nav_msgs::Odometry message.
    */
   // TODO
-  nav_msgs::Odometry odom_laser_in_world; // create a nav_msgs object type
-  transformStamped2odometry(laser_message, odom_laser_in_world); // convert the Stamped into an odometry
-  pub_odom.publish(odom_laser_in_world); // publish the odometry by the Publisher
+
+  // Create a nav_msgs object type
+  nav_msgs::Odometry odom_laser_in_world; 
+
+  // Convert the Stamped into an odometry
+  transformStamped2odometry(laser_message, odom_laser_in_world); 
+
+  // Publish the odometry by the Publisher
+  pub_odom.publish(odom_laser_in_world); 
 
   // Log the odom_laser_in_world information
   ROS_INFO("Odometry (laser in world): x=%f, y=%f, theta=%f",
@@ -176,6 +217,7 @@ void callback_scan(const sensor_msgs::LaserScanConstPtr& msg_) {
   sensor_msgs::LaserScan out_scan = *msg_;
   out_scan.header.frame_id = FRAME_LASER;
   pub_scan.publish(out_scan);
+
   // Log the out_scan information
   ROS_INFO("Outgoing LaserScan frame_id: %s", out_scan.header.frame_id.c_str());
 }
