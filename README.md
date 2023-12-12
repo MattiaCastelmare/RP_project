@@ -82,4 +82,4 @@ source devel/setup.bash
    ```sh
    rosrun icp_localization localizer_node
    ```
-At this point, open **RViz** and set the initial position of the robot close to the real one. Then, open the simulator and move the robot with the mouse. In **RViz**, you should see the odometry of the robot and its scan of the obstacles as you move the robot.
+At this point, open **RViz** and set the initial position and orientation of the robot close to the real one. Then, open the simulator and move the robot with the mouse. In **RViz**, you should see the odometry of the robot and its scan of the obstacles as you move the robot.
