@@ -17,7 +17,6 @@ Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` 
   sudo apt install ros-noetic-stage-ros ros-noetic-teleop-twist-keyboard
   ```
 
-\
 ## How to set up workspace and clone repository
 Run the following commands in a terminal:
 \
