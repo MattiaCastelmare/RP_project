@@ -1,4 +1,4 @@
-# RP_project
+# Robot Programming project "ICP localization"
 The aim of this project is to develop a ICP-Based Localizer system compliant with the ROS environment. 
 
 ## Requirements
