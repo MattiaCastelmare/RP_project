@@ -13,7 +13,9 @@ Install the `ros-${DISTRO}-map-server` package. In our case (valid for Lattinone
  ###  2) Stage-ROS
 \
 Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` package. As above, we are using _ROS Noetic_ run the following command:
-dcdcd
+  ```sh
+  sudo apt install ros-noetic-stage-ros ros-noetic-teleop-twist-keyboard
+  ```
 
 \
 ## How to set up workspace and clone repository
