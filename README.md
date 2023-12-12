@@ -13,6 +13,7 @@ Install the `ros-${DISTRO}-map-server` package. In our case (valid for Lattinone
  ###  2) Stage-ROS
 \
 Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` package. As above, we are using _ROS Noetic_ run the following command:
+dcdcd
 
 ## How to set up workspace and clone repository
 Run the following commands in a terminal:
