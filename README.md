@@ -18,24 +18,24 @@ Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` 
   ```
 
 ## How to set up workspace and clone repository
-In the root folder create the folder catkin_icp_ws/src
+In the root folder create the folder catkin_icp_ws/src:
    ```sh
    cd ~
    
    mkdir -p catkin_icp_ws/src
    ```
-Go inside the catkin_icp_ws/src and create your catkin workspace
+Go inside the catkin_icp_ws/src and create your catkin workspace:
    ```sh 
    cd catkin_icp_ws/src
    
    catkin_init_workspace
    ```
 
-Clone this repository inside the catkin_icp_ws/src folder
+Clone this repository inside the catkin_icp_ws/src folder:
    ```sh
    git clone https://github.com/MattiaCastelmare/RP_project.git
    ```
-Go into the ~/catkin_icp_ws/ folder and build the project
+Go into the ~/catkin_icp_ws/ folder and build the project:
    ```sh
    cd ~/catkin_icp_ws/
    
