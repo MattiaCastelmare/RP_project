@@ -60,7 +60,7 @@ source devel/setup.bash
    ```
    Run the map_server node:
    ```sh
-   rosrun map_server map_server test_data/cappero.yaml
+   rosrun map_server map_server test_data/cappero_map.yaml
    ```
 3) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
