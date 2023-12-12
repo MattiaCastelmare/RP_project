@@ -50,7 +50,7 @@ Everytime a terminal is opened source the project by the command:
 ```sh
 source devel/setup.bash
 ```
-1) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
+##### 1) Open a terminal go into the ~/catkin_icp_ws/ and source it then run:
    ```sh
    roscore
    ```
