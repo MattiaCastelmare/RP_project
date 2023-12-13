@@ -86,5 +86,7 @@ At this point, open **RViz** and set the initial position and orientation of the
 \
 The following is an example of the results obtained:
 \
-![ezgif com-video-to-gif-converted](https://github.com/MattiaCastelmare/RP_project/assets/94857717/894dce46-0795-40b9-80a8-a875d903d10e)
+<p align="center">
+  <img src="https://github.com/MattiaCastelmare/RP_project/assets/94857717/894dce46-0795-40b9-80a8-a875d903d10e" alt="ICP Localization Demo">
+</p>
 
