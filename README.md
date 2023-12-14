@@ -6,13 +6,13 @@ Before running the project be sured to have installed the following packages:
 
 ### 1)  Map Server
 \
-Install the `ros-${DISTRO}-map-server` package. In our case (valid for Lattinone VM) we are using _ROS Noetic_ run the following command:
+Install the `ros-${DISTRO}-map-server` package. In my case (valid for Lattinone VM) I am using _ROS Noetic_, run the following command:
    ```sh
     sudo apt install ros-noetic-map-server
    ```
  ###  2) Stage-ROS
 \
-Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` package. As above, we are using _ROS Noetic_ run the following command:
+Install the `ros-${DISTRO}-stage-ros` and `ros-${DISTRO}-teleop-twist-keyboard` package. As above, I am using _ROS Noetic_ run the following command:
   ```sh
   sudo apt install ros-noetic-stage-ros ros-noetic-teleop-twist-keyboard
   ```
